@@ -382,8 +382,8 @@ if __name__ == '__main__':
     from data import Vocab
     from collections import namedtuple
 
-    vocab_path = "/mnt/home/jonathan/datasets/cnn_dailymail/finished_files/vocab"
-    data_path = "/path/to/chunked/train_*"
+    vocab_path = "/mnt/home/jonathan/datasets/cnn-dailymail/cnn_dailymail_data/finished_files/vocab"
+    data_path = "/mnt/home/jonathan/datasets/cnn-dailymail/cnn_dailymail_data/finished_files/chunked/train_*"
     vocab = Vocab(vocab_path, 50000)
 
     hps_dict = {
@@ -396,4 +396,5 @@ if __name__ == '__main__':
     hps = namedtuple("HParams", hps_dict.keys())(**hps_dict)
     batcher = Batcher(data_path, vocab, hps, single_pass=False)
     batch = batcher.next_batch()
+    print(batch)
 
