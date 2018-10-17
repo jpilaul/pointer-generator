@@ -22,7 +22,7 @@ from threading import Thread
 import time
 import numpy as np
 import tensorflow as tf
-import data
+from tools import data
 
 
 class Example(object):
@@ -379,7 +379,7 @@ class Batcher(object):
 
 
 if __name__ == '__main__':
-    from data import Vocab
+    from tools.data import Vocab
     from collections import namedtuple
 
     vocab_path = "/mnt/home/jonathan/datasets/cnn-dailymail/cnn_dailymail_data/finished_files/vocab"

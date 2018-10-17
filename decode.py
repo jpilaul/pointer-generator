@@ -19,13 +19,11 @@
 import os
 import time
 import tensorflow as tf
-import beam_search
-import data
+from tools import beam_search, data
 import json
 import pyrouge
 import util
 import logging
-import numpy as np
 
 FLAGS = tf.app.flags.FLAGS
 

@@ -18,7 +18,7 @@
 
 import tensorflow as tf
 import numpy as np
-import data
+from tools import data
 
 FLAGS = tf.app.flags.FLAGS
 
@@ -101,7 +101,7 @@ def run_beam_search(sess, model, vocab, batch):
                      state=dec_in_state,
                      attn_dists=[],
                      p_gens=[],
-                     coverage=np.zeros([batch.enc_batch.shape[1]]) # zero vector of length attention_length
+                     coverage=np.zeros([batch.enc_batch.shape[1]])  # zero vector of length attention_length
                      ) for _ in range(FLAGS.beam_size)]
   results = [] # this will contain finished hypotheses (those that have emitted the [STOP] token)
 

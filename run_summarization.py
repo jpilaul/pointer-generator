@@ -16,14 +16,13 @@
 
 """This is the top-level file to train, evaluate or test your summarization model"""
 
-import sys
 import time
 import os
 import tensorflow as tf
 import numpy as np
 from collections import namedtuple
-from data import Vocab
-from batcher import Batcher
+from tools.data import Vocab
+from tools.batcher import Batcher
 from model import SummarizationModel
 from decode import BeamSearchDecoder
 import util
