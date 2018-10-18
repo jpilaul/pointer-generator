@@ -7,6 +7,7 @@ import struct
 import torch
 
 from .config import *
+from tools.data import abstract2sents
 from collections import Counter, OrderedDict
 from subword_nmt import learn_bpe, apply_bpe
 from tensorflow.core.example import example_pb2
@@ -28,9 +29,8 @@ class Tokenizer(object):
 
         if additional_tokens is not None:
             self.special_tokens += additional_tokens
-        self.__word2idx = {}
-        check = os.path.isfile(vocab_file)
-        if os.path.isfile(vocab_file):
+        self.word2idx = {}
+        if vocab_file is not None and os.path.isfile(vocab_file):
             self.load_vocab(vocab_file)
         # if use_moses is not None
         # try:
@@ -51,13 +51,13 @@ class Tokenizer(object):
             return self.vocab[idx - len(self.special_tokens)][0]
 
     def update_word2idx(self):
-        self.__word2idx = {
+        self.word2idx = {
             word[0]: idx + len(self.special_tokens) for idx, word in enumerate(self.vocab)}
         for i, tok in enumerate(self.special_tokens):
-            self.__word2idx[tok] = i
+            self.word2idx[tok] = i
 
-    def word2idx(self, word):
-        return self.__word2idx.get(word, UNK)
+    def word2idx_func(self, word):
+        return self.word2idx.get(word, UNK)
 
     def segment(self, line):
         """segments a line to tokenizable items"""
@@ -81,8 +81,9 @@ class Tokenizer(object):
                         0].decode()  # the article text was saved under the key 'article' in the data files
                     abstract_text = example_str.features.feature['abstract'].bytes_list.value[
                         0].decode()  # the abstract text was saved under the key 'abstract' in the data files
-                    text = article_text + abstract_text
-                    for word in self.segment(text): vocab[word] += 1
+                    text_list = abstract2sents(article_text) + abstract2sents(abstract_text)
+                    for word in self.segment(' '.join(text_list)):
+                        vocab[word] += 1
             else:
                 for fname in filenames:
                     with codecs.open(fname, encoding='UTF-8') as f:
@@ -126,7 +127,7 @@ class Tokenizer(object):
         if insert_start is not None:
             targets += insert_start
         for w in inputs:
-            targets.append(self.word2idx(w))
+            targets.append(self.word2idx_func(w))
         if insert_end is not None:
             targets += insert_end
         return torch.LongTensor(targets)
@@ -140,7 +141,7 @@ class Tokenizer(object):
 
 class BPETokenizer(Tokenizer):
 
-    def __init__(self, codes_file, vocab_file, additional_tokens=None,
+    def __init__(self, codes_file, vocab_file=None, additional_tokens=None,
                  num_symbols=10000, min_frequency=2, separator='@@',
                  pre_tokenize=None, post_tokenize=None,):
         super(BPETokenizer, self).__init__(vocab_file=vocab_file,
@@ -185,7 +186,7 @@ class BPETokenizer(Tokenizer):
                         0].decode()  # the article text was saved under the key 'article' in the data files
                     abstract_text = example_str.features.feature['abstract'].bytes_list.value[
                         0].decode()  # the abstract text was saved under the key 'abstract' in the data files
-                    full_vocab += learn_bpe.get_vocabulary([article_text, abstract_text])
+                    full_vocab += learn_bpe.get_vocabulary(abstract2sents(article_text) + abstract2sents(abstract_text))
             else:
                 for fname in filenames:
                     with codecs.open(fname, encoding='UTF-8') as f:
