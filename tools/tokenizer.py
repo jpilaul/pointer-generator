@@ -107,7 +107,6 @@ class Tokenizer(object):
         vocab = OrderedCounter()
         import os
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        print(dir_path)
         with codecs.open(vocab_filename, encoding='UTF-8') as f:
             for line in f:
                 try:

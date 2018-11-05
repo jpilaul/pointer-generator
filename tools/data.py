@@ -278,6 +278,6 @@ def show_abs_oovs(abstract, vocab, article_oovs):
 
 if __name__ == '__main__':
 
-    vocab_path = "/mnt/home/jonathan/datasets/cnn-dailymail/cnn_dailymail_data/finished_files/vocab"
+    vocab_path = "/mnt/home/jonathan/datasets/cnn-dailymail/cnn_dailymail_data/finished_files/bpe_vocab"
     vocab = Vocab(vocab_path, 50000)
     print(vocab)
