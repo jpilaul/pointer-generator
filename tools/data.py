@@ -26,12 +26,12 @@ from tensorflow.core.example import example_pb2
 SENTENCE_START = '<s>'
 SENTENCE_END = '</s>'
 
-PAD_TOKEN = '[PAD]' # This has a vocab id, which is used to pad the encoder input, decoder input and target sequence
-UNKNOWN_TOKEN = '[UNK]' # This has a vocab id, which is used to represent out-of-vocabulary words
-START_DECODING = '[START]' # This has a vocab id, which is used at the start of every decoder input sequence
-STOP_DECODING = '[STOP]' # This has a vocab id, which is used at the end of untruncated target sequences
+PAD_TOKEN = '<pad>' # This has a vocab id, which is used to pad the encoder input, decoder input and target sequence
+UNKNOWN_TOKEN = '<unk>' # This has a vocab id, which is used to represent out-of-vocabulary words
+START_DECODING = '<start>' # This has a vocab id, which is used at the start of every decoder input sequence
+STOP_DECODING = '<stop>' # This has a vocab id, which is used at the end of untruncated target sequences
 
-# Note: none of <s>, </s>, [PAD], [UNK], [START], [STOP] should appear in the vocab file.
+# Note: none of <s>, </s>, [PAD], [UNK], [START], [STOP] should not appear in the vocab file.
 
 
 class Vocab(object):

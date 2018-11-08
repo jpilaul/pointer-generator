@@ -12,6 +12,7 @@ from collections import Counter, OrderedDict
 from subword_nmt import learn_bpe, apply_bpe
 from tensorflow.core.example import example_pb2
 
+
 class OrderedCounter(Counter, OrderedDict):
     pass
 

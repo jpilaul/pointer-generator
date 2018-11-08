@@ -360,8 +360,8 @@ class Batcher(object):
     def text_generator(self, example_generator):
         """Generates article and abstract text from tf.Example.
 
-    Args:
-      example_generator: a generator of tf.Examples from file. See data.example_generator"""
+        Args:
+        example_generator: a generator of tf.Examples from file. See data.example_generator"""
         while True:
             e = next(example_generator)  # e is a tf.Example
             try:
